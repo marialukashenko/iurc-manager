@@ -14,6 +14,8 @@ dependencies = [
 python = ">=3.9"
 sqlalchemy = "*"
 django = "*"
+psycopg2-binary = "*"
+dotenv = "*"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

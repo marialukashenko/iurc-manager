@@ -1,0 +1,29 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<h2>Добро пожаловать, {{ user.username }}!</h2>
+
+<div class="user-info">
+    <p><strong>Роль:</strong> {{ user.get_role_display }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+</div>
+
+{% if user.role == 'admin' %}
+    <div class="admin-features">
+        <h3>Функции администратора</h3>
+        <a href="/admin/">Панель администратора</a>
+    </div>
+{% elif user.role == 'teacher' %}
+    <div class="teacher-features">
+        <h3>Функции преподавателя</h3>
+        <p>Здесь будут функции для преподавателей...</p>
+    </div>
+{% elif user.role == 'student' %}
+    <div class="student-features">
+        <h3>Функции студента</h3>
+        <p>Здесь будут функции для студентов...</p>
+    </div>
+{% endif %}
+{% endblock %}
