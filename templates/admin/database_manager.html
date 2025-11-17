@@ -4,14 +4,16 @@
 <div id="content-main">
     <div class="module">
         <!-- Список таблиц -->
-        <h2>📋 Таблицы базы данных</h2>
+        <h2>Таблицы базы данных</h2>
         <div class="tables-grid">
             {% for table in tables %}
                 <div class="table-card">
                     <strong>{{ table.name }}</strong>
                     <small>({{ table.type }})</small>
-                    <button onclick="setQuery('SELECT * FROM {{ table.name }} LIMIT 10')" 
-                            class="view-btn">👁️ Просмотр</button>
+                    <div>
+                        <button onclick="setQuery('SELECT * FROM {{ table.name }} LIMIT 10')" 
+                            class="view-btn">Просмотр</button>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -83,10 +85,18 @@
 }
 
 .table-card {
-    background: #f8f9fa;
+    background: #121212;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
+
+    strong {
+        color: white;
+    }
+
+    small {
+        color: #417690;
+    }
 }
 
 .view-btn {
