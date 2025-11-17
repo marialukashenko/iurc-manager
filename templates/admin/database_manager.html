@@ -1,0 +1,126 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div id="content-main">
+    <div class="module">
+        <!-- Список таблиц -->
+        <h2>📋 Таблицы базы данных</h2>
+        <div class="tables-grid">
+            {% for table in tables %}
+                <div class="table-card">
+                    <strong>{{ table.name }}</strong>
+                    <small>({{ table.type }})</small>
+                    <button onclick="setQuery('SELECT * FROM {{ table.name }} LIMIT 10')" 
+                            class="view-btn">👁️ Просмотр</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- SQL редактор -->
+    <div class="module">
+        <h2>🔧 SQL Query Editor</h2>
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="query" rows="6" style="width: 100%; font-family: monospace;" 
+                      placeholder="Введите SQL запрос...">{{ current_query }}</textarea>
+            <br>
+            <button type="submit" class="button">▶️ Выполнить запрос</button>
+            
+            <div style="margin-top: 10px;">
+                <strong>Быстрые запросы:</strong>
+                <button type="button" class="button" onclick="setQuery('SELECT version()')">ℹ️ Версия PostgreSQL</button>
+                <button type="button" class="button" onclick="setQuery('SELECT * FROM information_schema.tables WHERE table_schema = &quot;public&quot;')">📊 Все таблицы</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Результаты -->
+    {% if query_results %}
+    <div class="module">
+        <h2>📈 Результаты</h2>
+        {% if query_results.error %}
+            <div class="errornote">
+                <strong>Ошибка:</strong> {{ query_results.error }}
+            </div>
+        {% elif query_results.message %}
+            <div class="success">
+                {{ query_results.message }}
+            </div>
+        {% else %}
+            <p>Найдено записей: {{ query_results.row_count }}</p>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            {% for column in query_results.columns %}
+                                <th style="background: #417690; color: white; padding: 8px;">{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in query_results.rows %}
+                            <tr>
+                                {% for cell in row %}
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ cell }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.table-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.view-btn {
+    background: #417690;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.button {
+    background: #417690;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.success {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #c3e6cb;
+}
+</style>
+
+<script>
+function setQuery(query) {
+    document.querySelector('textarea[name="query"]').value = query;
+}
+</script>
+{% endblock %}

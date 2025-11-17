@@ -7,7 +7,13 @@ class User(AbstractUser):
         ('admin', 'Менеджер'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='student')
-    phone = models.CharField(max_length=15, blank=True, null=True)
+    isu = models.CharField(
+        max_length=6,
+        unique=True,
+        blank=False,
+        null=False,
+        verbose_name='Номер ИСУ'
+    )
 
     def save(self, *args, **kwargs):
         if self.is_superuser:

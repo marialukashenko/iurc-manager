@@ -56,7 +56,7 @@ input[type=password]:focus {
   font-weight: 600;
   font-size: 16px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #2D8B81 0%, #4CAF50 100%);
+  background: linear-gradient(135deg, #2D8B81 0%, #93DCD5 100%);
   box-shadow: 0 8px 20px rgba(45,139,129,0.18), inset 0 -2px 6px rgba(255,255,255,0.06);
   transition: transform 160ms cubic-bezier(.2,.9,.3,1), box-shadow 160ms ease, opacity 120ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -99,4 +99,105 @@ a {
 .signin {
   background-color: #B2E6E1;
   text-align: center;
+}
+
+/*Таблица студента*/
+.empty-cell {
+  background: none;
+}
+
+.table-link {
+  background: none;
+}
+
+.achievements-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 800px;
+}
+
+.achievements-table th,
+.achievements-table td {
+    border: 1px solid #2D8B81;
+    padding: 12px;
+    text-align: left;
+}
+
+.achievements-table th {
+    background: #4D7298;
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+}
+
+.achievements-table td {
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 200px;
+    background: white;
+}
+
+.achievements-table tr:nth-child(even) td {
+    background-color: #f8f9fa;
+    border-color: #e0e0e0;
+}
+
+.achievements-table tr:nth-child(odd) td {
+    background-color: white;
+    border-color: #e0e0e0;
+}
+
+.achievements-table tr:hover td {
+    background-color: #e3f2fd;
+    border-color: #bbdefb;
+}
+
+.achievements-table tr:first-child th:first-child td:first-child {
+    border-top-left-radius: 6px;
+}
+
+.achievements-table tr:first-child th:last-child td:first-child {
+    border-top-right-radius: 6px;
+}
+
+.achievements-table tr:last-child td:first-child td:first-child {
+    border-bottom-left-radius: 6px;
+}
+
+.achievements-table tr:last-child td:last-child td:first-child {
+    border-bottom-right-radius: 6px;
+}
+
+.empty-cell {
+    color: #999;
+    font-style: italic;
+}
+
+.table-info {
+    margin-top: 10px;
+    text-align: right;
+    color: #666;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }

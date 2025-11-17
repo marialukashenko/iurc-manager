@@ -1,0 +1,72 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<h2>Добро пожаловать, {{ user.username }}!</h2>
+
+<div class="user-info">
+    <p><strong>Роль:</strong> {{ user.get_role_display }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+</div>
+
+{% if user.role == 'admin' %}
+    <div class="admin-features">
+        <h3>Возможности менеджера</h3>
+        <a href="/admin/">Панель администратора</a>
+    </div>
+{% elif user.role == 'student' %}
+    <div class="student-features">
+        <h3>Функции студента</h3>
+            <form method="post" style="margin: 20px 0;">
+        {% csrf_token %}
+        <button type="submit" name="show_student_data" class="registerbtn">
+            Показать мои достижения
+        </button>
+    </form>
+    
+{% if student_data %}
+<div class="student-data">
+    <h4>Ваши достижения:</h4>
+    <div class="table-container">
+        <table class="achievements-table">
+            <thead>
+                <tr>
+                    {% for column in student_data.columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in student_data.rows %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>
+                                {% if cell %}
+                                    {% if "http" in cell %}  <!-- Проверяем URL -->
+                                        <a href="{{ cell }}" target="_blank" class="table-link">
+                                            {{ cell|linebreaksbr }}
+                                        </a>
+                                    {% else %}
+                                        {{ cell|linebreaksbr }}
+                                    {% endif %}
+                                {% else %}
+                                    <span class="empty-cell">—</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-info">
+        Найдено записей: {{ student_data.rows|length }}
+    </div>
+</div>
+{% endif %}
+
+</div>
+    </div>
+{% endif %}
+{% endblock %}
